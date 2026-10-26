@@ -15,7 +15,14 @@ st.set_page_config(
 )
 
 cfg = load_config()
-db_path = cfg["database"]["path"]
+db_path = from pathlib import Path
+cfg = load_config()
+APP_DIR = Path(__file__).resolve().parent
+db_path = Path(cfg["database"]["path"])
+if not db_path.is_absolute():
+    db_path = APP_DIR / db_path
+ref = cfg["analysis"]["reference_symbol"].upper()
+action_cfg = cfg.get("dashboard", {}).get("actionable", {})
 ref = cfg["analysis"]["reference_symbol"].upper()
 action_cfg = cfg.get("dashboard", {}).get("actionable", {})
 
